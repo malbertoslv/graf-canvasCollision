@@ -3,16 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detección de colisiones</title>
-  <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/027/386/537/non_2x/collision-emoji-icon-symbol-free-png.png">
+  <title>Lluvia de minerales</title>
+  <link rel="icon" type="image/png" href="https://minecraft.wiki/images/Emerald_JE3_BE3.png?4c5f3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <canvas id="canvas"></canvas>
 
   <div class="hud">
-    <h1 class="title">Detección de <span>colisiones</span></h1>
-    <p class="counter">Colisiones: <strong id="collisionCount">0</strong></p>
+    <div class="card brand">
+      <h1 class="title">Lluvia de <span>minerales</span></h1>
+      <p class="hint">Haz clic en un mineral para picarlo</p>
+    </div>
+
+    <div class="card score">
+      <p class="score-label">Picados</p>
+      <strong id="removedCount">0</strong>
+      <span id="speedLevel" class="level" data-level="inicial">Velocidad inicial</span>
+    </div>
   </div>
 
   <script src="colision.js"></script>
