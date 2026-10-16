@@ -3,7 +3,7 @@
 ### Graficación
 **2do seguimiento**
 
-**Práctica:** *2.4 Detección de colisiones*
+**Práctica:** *2.4 - 2.5 Detección de colisiones - Interactividad con gráficos 2D*
 
 **Autor:**
  - *Mario Alberto Silva López*
