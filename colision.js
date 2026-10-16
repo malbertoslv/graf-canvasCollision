@@ -154,6 +154,15 @@ class Circle {
     return this.distanceTo(other) <= this.radius + other.radius;
   }
 
+  // Detecta si el punto (mouseX, mouseY) está dentro del círculo
+  // Fórmula de distancia: d = √((x2-x1)² + (y2-y1)²)
+  containsPoint(mouseX, mouseY) {
+    const distX = mouseX - this.posX;
+    const distY = mouseY - this.posY;
+    const distance = Math.sqrt(distX * distX + distY * distY);
+    return distance <= this.radius;
+  }
+
   // Rebote: ambos círculos regresan en dirección contraria y hacen "flash" azul
   bounceWith(other) {
     const distX = other.posX - this.posX;
@@ -275,6 +284,52 @@ function detectCollisions() {
     }
   }
 }
+
+// ---------------------------------------------------------------
+// Interacción con el mouse
+// ---------------------------------------------------------------
+
+// Obtiene las coordenadas mouseX y mouseY relativas al canvas
+function getMousePosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    mouseX: event.clientX - rect.left,
+    mouseY: event.clientY - rect.top
+  };
+}
+
+// Elimina el círculo que esté bajo el mouse (regresa true si eliminó alguno)
+function removeCircleAt(mouseX, mouseY) {
+  // Se recorre al revés para eliminar el que se dibuja encima si hay empalmes
+  for (let i = circles.length - 1; i >= 0; i--) {
+    if (circles[i].containsPoint(mouseX, mouseY)) {
+      const target = circles[i];
+
+      // Efecto visual al desaparecer
+      shockwaves.push(new Shockwave(target.posX, target.posY));
+      for (let k = 0; k < 20; k++) {
+        particles.push(new Particle(target.posX, target.posY, target.originalColor));
+      }
+
+      circles.splice(i, 1); // Lo quita del arreglo, por lo tanto del canvas
+      return true;
+    }
+  }
+  return false;
+}
+
+// Clic izquierdo: elimina el círculo bajo el cursor
+canvas.addEventListener("click", (event) => {
+  const { mouseX, mouseY } = getMousePosition(event);
+  removeCircleAt(mouseX, mouseY);
+});
+
+// Cursor de mano cuando el mouse está sobre un círculo
+canvas.addEventListener("mousemove", (event) => {
+  const { mouseX, mouseY } = getMousePosition(event);
+  const overCircle = circles.some(c => c.containsPoint(mouseX, mouseY));
+  canvas.style.cursor = overCircle ? "pointer" : "default";
+});
 
 // Dibuja y actualiza partículas y ondas, quitando las que ya terminaron
 function updateEffects() {
